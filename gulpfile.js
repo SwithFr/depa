@@ -7,33 +7,27 @@ var gulp        = require('gulp'),
 gulp.task('serve', ['sass'], function() {
 
     browserSync.init({
-        server: "."
+        server: "./dist"
     });
 
-    gulp.watch("./sass/*.sass", ['sass']);
-    gulp.watch("./js/*.js", ['js']);
-    gulp.watch("./js/*.coffee", ['coffee']);
-    gulp.watch("./*").on('change', browserSync.reload);
+    gulp.watch("./src/sass/*.sass", ['sass']);
+    gulp.watch("./src/js/*.coffee", ['coffee']);
+    gulp.watch("./dist/*.html").on('change', browserSync.reload);
 });
 
 gulp.task('sass', function() {
-    return gulp.src("./sass/*")
+    return gulp.src("./src/sass/*")
         .pipe(sass({outputStyle: 'compressed'}))
-        .pipe(gulp.dest("./css"))
+        .pipe(gulp.dest("./dist/css"))
         .pipe(browserSync.stream());
 });
 
 gulp.task('coffee', function() {
-  gulp.src('./js/*.coffee')
-    .pipe(coffee({bare: true}).on('error', gutil.log))
-    .pipe(gulp.dest('./js/'))
-});
-
-gulp.task('js', function() {
-    return gulp.src('./js/*.js')
-        .pipe(uglify())
-        .pipe(gulp.dest('./js/min'))
-        .pipe(browserSync.stream());
+  gulp.src('./src/js/*.coffee')
+    .pipe(coffee()
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist/js/'))
+    .pipe(browserSync.stream());
 });
 
 gulp.task('default', ['serve']);
