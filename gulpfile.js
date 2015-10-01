@@ -18,15 +18,15 @@ gulp.task('serve', ['sass'], function() {
 gulp.task('sass', function() {
     return gulp.src("./src/sass/*")
         .pipe(sass({outputStyle: 'compressed'}))
-        .pipe(gulp.dest("./dist/css"))
+        .pipe(gulp.dest("./dist/css/*.sass"))
         .pipe(browserSync.stream());
 });
 
 gulp.task('coffee', function() {
   gulp.src('./src/js/*.coffee')
-    .pipe(coffee()
+    .pipe(coffee())
     .pipe(uglify())
-    .pipe(gulp.dest('./dist/js/'))
+    .pipe(gulp.dest('./dist/js/*.js'))
     .pipe(browserSync.stream());
 });
 
